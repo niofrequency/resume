@@ -1,0 +1,20 @@
+//@version=5
+strategy("SMA Crossover Strategy", overlay=true)
+
+// Define the input variables
+smaShortLength = input(25, title="Short SMA Length")
+smaLongLength = input(50, title="Long SMA Length")
+
+// Calculate the SMAs
+smaShort = ta.sma(close, smaShortLength)
+smaLong = ta.sma(close, smaLongLength)
+
+// Define the entry and exit conditions
+enterLong = ta.crossover(smaShort, smaLong)
+exitLong = ta.crossunder(smaShort, smaLong)
+
+// Execute the strategy
+if enterLong
+    strategy.entry("Long", strategy.long)
+if exitLong
+    strategy.close("Long")
